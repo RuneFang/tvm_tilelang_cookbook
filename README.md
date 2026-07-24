@@ -57,11 +57,7 @@
 
 ### Star 历史曲线
 
-<a href="https://star-history.com/#RuneFang/tvm_tilelang_cookbook&Date">
-  <img src="./assets/star-history.svg" alt="Star History Chart"/>
-</a>
-
-> 曲线由 GitHub Actions 每天自动更新一次；想看实时数据点右图跳转 star-history.com。
+<img src="./assets/star-history.svg" alt="Star History Chart"/>
 
 ---
 

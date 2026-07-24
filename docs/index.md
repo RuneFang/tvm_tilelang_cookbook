@@ -38,9 +38,7 @@
 
 ### Star 历史
 
-<a href="https://star-history.com/#RuneFang/tvm_tilelang_cookbook&Date">
-  <img src="https://raw.githubusercontent.com/RuneFang/tvm_tilelang_cookbook/main/assets/star-history.svg" alt="Star History Chart"/>
-</a>
+<img src="https://raw.githubusercontent.com/RuneFang/tvm_tilelang_cookbook/main/assets/star-history.svg" alt="Star History Chart"/>
 
 ---
 

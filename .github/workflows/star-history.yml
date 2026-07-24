@@ -3,11 +3,12 @@ name: Update Star History Chart
 on:
   schedule:
     - cron: "0 0 * * *"   # 每天 UTC 00:00 跑一次
-  workflow_dispatch:       # 也支持手动触发
+  workflow_dispatch:
   push:
     branches: [main]
     paths:
       - ".github/workflows/star-history.yml"
+      - "tools/gen_star_history.py"
 
 permissions:
   contents: write
@@ -18,16 +19,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Fetch latest star history SVG (with token to bypass rate limit)
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Generate star history SVG (from GitHub API, no third party)
         env:
+          # GITHUB_TOKEN 是每个 workflow run 自动注入的，只读公开数据完全够用
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          mkdir -p assets
-          # 用带 token 的请求获取 SVG（走 star-history 的 authorized 路径）
-          curl -fsSL \
-            -H "Authorization: Bearer ${GH_TOKEN}" \
-            "https://api.star-history.com/svg?repos=RuneFang/tvm_tilelang_cookbook&type=Date" \
-            -o assets/star-history.svg
+          python3 tools/gen_star_history.py \
+            --repo RuneFang/tvm_tilelang_cookbook \
+            --out  assets/star-history.svg
           ls -lh assets/star-history.svg
 
       - name: Commit if changed
