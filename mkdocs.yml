@@ -1,0 +1,116 @@
+site_name: TVM / TileLang Cookbook
+site_description: 从零到能改 Pass 的 TVM / TileLang 中文教程
+site_author: shenfeng
+repo_name: RuneFang/tvm_tilelang_cookbook
+repo_url: https://github.com/RuneFang/tvm_tilelang_cookbook
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  language: zh
+  features:
+    # 导航：GitBook 风格（左侧可折叠章节、右侧目录、顶部返回）
+    - navigation.instant
+    - navigation.tracking
+    - navigation.sections         # 二级章节展开显示
+    - navigation.expand           # 默认展开左侧目录
+    - navigation.top              # 回到顶部按钮
+    - navigation.footer           # 底部上/下一页（GitBook 招牌）
+    - toc.follow                  # 右侧目录跟随滚动
+    # 代码块
+    - content.code.copy
+    - content.code.annotate
+    # 搜索
+    - search.suggest
+    - search.highlight
+    - search.share
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: 切换暗色
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: 切换亮色
+  icon:
+    repo: fontawesome/brands/github
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - footnotes
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - toc:
+      permalink: true
+      toc_depth: 3
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/RuneFang/tvm_tilelang_cookbook
+  generator: false
+
+# 不蒜子（busuanzi）：零注册、零配置的中文极简访问计数
+# 首次访问后可能需要几秒 / 需要真实域名（非 localhost）才会返回数字
+extra_javascript:
+  - https://busuanzi.pgaot.com/js/busuanzi.pure.mini.js
+
+# 每一页的页脚都显示"本站总访问量 X 次 · 访客数 Y 人"
+copyright: >
+  Copyright &copy; 2024–2026 RuneFang ·
+  <span id="busuanzi_container_site_pv" style="display:none;">
+    本站总访问量 <span id="busuanzi_value_site_pv"></span> 次
+  </span>
+  <span id="busuanzi_container_site_uv" style="display:none;">
+    · 访客数 <span id="busuanzi_value_site_uv"></span> 人
+  </span>
+  · <a href="https://github.com/RuneFang/tvm_tilelang_cookbook">给我一颗 ⭐ Star 呀</a>
+
+nav:
+  - 首页: index.md
+  - 前言: 00_preface.md
+  - 入门:
+      - 01 最小例子: 01_hello_tilelang.md
+      - 02 TVM/TIR 基础: 02_tvm_tir_basics.md
+      - 03 TileLang DSL: 03_tilelang_dsl.md
+  - 编译系统:
+      - 04 Pass 系统: 04_pass_system.md
+      - 05 Lowering Pipeline: 05_lowering_pipeline.md
+      - 06 软件流水与 Warp Spec: 06_pipeline_and_warp_specialize.md
+      - 07 Layout 与 Fragment: 07_layout_and_fragment.md
+  - 代码生成与运行:
+      - 08 Codegen TIR→CUDA: 08_codegen_tir_to_cuda.md
+      - 09 Runtime/JIT/Cache: 09_runtime_jit_kernel_cache.md
+  - 实战:
+      - 10 贡献工作流: 10_contribute.md
+      - 11 调试与可视化: 11_debugging_and_visualization.md
+      - 12 控制流/动态/Reduce: 12_control_flow_dynamic_reduce_atomic.md
+      - 13 Cluster/TMA/Hopper: 13_cluster_tma_hopper.md
+      - 14 量化/FP8/INT4: 14_quantization_fp8_mxfp_int4.md
+  - 附录:
+      - A TIR 速查表: A_tvm_tir_cheatsheet.md
+      - B 源码地图: B_source_map.md
+      - C 术语表: C_glossary.md
+      - D 生态延伸: D_ecosystem.md
+      - E 编译器背景: E_compiler_background.md
+      - F Eager 与 CuTe DSL: F_eager_and_cutedsl.md
