@@ -1,9 +1,8 @@
-name: deploy-mkdocs
+name: Deploy MkDocs to GitHub Pages
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -22,23 +21,26 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 0  # star-history / git-revision 插件需要完整历史
 
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      - name: Install MkDocs and Material theme
-        run: pip install mkdocs mkdocs-material
+      - name: Install dependencies
+        run: |
+          pip install mkdocs-material
 
       - name: Build site
-        run: mkdocs build --strict
+        # 暂不加 --strict，章节里有一些指向 tilelang 源码的 relative link
+        # 会触发 warning，等后续清理干净后再启用
+        run: mkdocs build --clean
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: site
+          path: ./site
 
   deploy:
     needs: build

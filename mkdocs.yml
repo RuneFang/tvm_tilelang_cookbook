@@ -1,6 +1,7 @@
 site_name: TVM / TileLang Cookbook
 site_description: 从零到能改 Pass 的 TVM / TileLang 中文教程
 site_author: shenfeng
+site_url: https://runefang.github.io/tvm_tilelang_cookbook/
 repo_name: RuneFang/tvm_tilelang_cookbook
 repo_url: https://github.com/RuneFang/tvm_tilelang_cookbook
 edit_uri: edit/main/docs/
