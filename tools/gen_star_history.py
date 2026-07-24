@@ -21,8 +21,13 @@ import os
 import sys
 import urllib.error
 import urllib.request
-from datetime import datetime, timezone
+from datetime import datetime, timezone, tzinfo
 from typing import List, Tuple
+
+try:
+    from zoneinfo import ZoneInfo  # Python 3.9+
+except ImportError:  # pragma: no cover
+    ZoneInfo = None  # type: ignore
 
 
 API = "https://api.github.com"
@@ -83,8 +88,23 @@ def fetch_all_stars(repo: str, token: str | None) -> List[datetime]:
     return times
 
 
-def build_svg(repo: str, times: List[datetime], width: int = 800, height: int = 320) -> str:
-    """把时间序列画成一张自适应 SVG。"""
+def build_svg(
+    repo: str,
+    times: List[datetime],
+    width: int = 800,
+    height: int = 320,
+    tz: tzinfo | None = None,
+    tz_label: str = "UTC",
+) -> str:
+    """把时间序列画成一张自适应 SVG。
+
+    Args:
+        tz: 展示用的时区（不影响数据本身，只影响坐标轴刻度和右上角"updated"文案）；
+            默认 None 表示 UTC。
+        tz_label: 展示在右上角的时区简称，比如 "UTC+8"、"CST"。
+    """
+    if tz is None:
+        tz = timezone.utc
     pad_l, pad_r, pad_t, pad_b = 60, 30, 40, 40
     plot_w = width - pad_l - pad_r
     plot_h = height - pad_t - pad_b
@@ -100,15 +120,16 @@ def build_svg(repo: str, times: List[datetime], width: int = 800, height: int = 
     if t_max <= t_min:
         t_max = t_min
 
+    # y 轴上限：至少留一点顶部空间，避免曲线贴顶
+    y_max = max(total, 4)
+
     def x_of(t: datetime) -> float:
         if t_max == t_min:
             return pad_l
         return pad_l + (t - t_min).total_seconds() / (t_max - t_min).total_seconds() * plot_w
 
     def y_of(n: int) -> float:
-        if total <= 1:
-            return pad_t + plot_h
-        return pad_t + plot_h - (n / total) * plot_h
+        return pad_t + plot_h - (n / y_max) * plot_h
 
     # 采样：如果 star 太多，降采样，不然 svg 太大
     step = max(1, total // 400)
@@ -121,23 +142,50 @@ def build_svg(repo: str, times: List[datetime], width: int = 800, height: int = 
     # 加一个"从起点垂线到底"的锚，视觉上更完整
     path_d = "M " + " L ".join(f"{x:.1f},{y:.1f}" for x, y in points)
 
-    # 坐标轴
-    x_ticks: List[Tuple[float, str]] = []
+    # ---- x 轴：根据时间跨度自动选粒度，并去重相邻标签 ----
+    span_days = max(1.0, (t_max - t_min).total_seconds() / 86400.0)
+    if span_days <= 2:
+        fmt = "%H:%M"                    # 几小时内
+    elif span_days <= 60:
+        fmt = "%Y-%m-%d"                 # 两个月内 → 精确到日
+    elif span_days <= 365 * 2:
+        fmt = "%Y-%m"                    # 两年内 → 精确到月
+    else:
+        fmt = "%Y"                       # 更长 → 精确到年
+
     n_ticks = 5
+    raw_ticks: List[Tuple[float, str]] = []
     for i in range(n_ticks + 1):
         frac = i / n_ticks
         t = datetime.fromtimestamp(
             t_min.timestamp() + frac * (t_max.timestamp() - t_min.timestamp()),
-            tz=timezone.utc,
+            tz=tz,   # 用展示时区渲染，不然会一直是 UTC
         )
-        x_ticks.append((pad_l + frac * plot_w, t.strftime("%Y-%m")))
+        raw_ticks.append((pad_l + frac * plot_w, t.strftime(fmt)))
 
+    # 去掉相邻重复：连续几个刻度是同一个标签时只保留第一个
+    x_ticks: List[Tuple[float, str]] = []
+    last_label = None
+    for x, label in raw_ticks:
+        if label == last_label:
+            x_ticks.append((x, ""))      # 保留刻度线位置，但不写文字
+        else:
+            x_ticks.append((x, label))
+            last_label = label
+
+    # ---- y 轴：整数刻度，避免出现 1.6 / 2.4 之类的小数 ----
     y_ticks: List[Tuple[float, str]] = []
-    for i in range(5 + 1):
-        val = int(round(total * i / 5))
-        y_ticks.append((pad_t + plot_h - (i / 5) * plot_h, str(val)))
+    y_steps = min(5, y_max)
+    seen_vals: set[int] = set()
+    for i in range(y_steps + 1):
+        val = int(round(y_max * i / y_steps))
+        if val in seen_vals:
+            continue
+        seen_vals.add(val)
+        y = pad_t + plot_h - (val / y_max) * plot_h
+        y_ticks.append((y, str(val)))
 
-    now_label = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    now_label = datetime.now(tz).strftime("%Y-%m-%d")
 
     svg_lines: List[str] = []
     svg_lines.append(
@@ -153,7 +201,7 @@ def build_svg(repo: str, times: List[datetime], width: int = 800, height: int = 
     )
     svg_lines.append(
         f'<text x="{width - pad_r}" y="24" font-size="11" fill="#8c959f" text-anchor="end">'
-        f'updated {now_label}</text>'
+        f'updated {now_label} ({tz_label})</text>'
     )
     # 网格 + y 轴刻度
     for y, label in y_ticks:
@@ -206,7 +254,40 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--repo", required=True, help="owner/name, e.g. RuneFang/tvm_tilelang_cookbook")
     parser.add_argument("--out", required=True, help="output svg path")
+    parser.add_argument(
+        "--tz",
+        default="Asia/Shanghai",
+        help='IANA timezone for axis labels, e.g. "Asia/Shanghai" (default), "UTC", "America/New_York".',
+    )
+    parser.add_argument(
+        "--tz-label",
+        default=None,
+        help='Short label shown next to the "updated" timestamp; auto-derived from --tz if omitted.',
+    )
     args = parser.parse_args()
+
+    # 解析时区
+    if args.tz.upper() == "UTC":
+        tz = timezone.utc
+    else:
+        if ZoneInfo is None:
+            print("::error::Python 3.9+ with zoneinfo is required for --tz", file=sys.stderr)
+            return 2
+        try:
+            tz = ZoneInfo(args.tz)
+        except Exception as e:
+            print(f"::error::unknown tz '{args.tz}': {e}", file=sys.stderr)
+            return 2
+
+    # 自动推导展示标签，比如 Asia/Shanghai → UTC+8
+    if args.tz_label:
+        tz_label = args.tz_label
+    elif tz is timezone.utc:
+        tz_label = "UTC"
+    else:
+        offset = datetime.now(tz).utcoffset() or timezone.utc.utcoffset(datetime.now())
+        hours = int(offset.total_seconds() // 3600) if offset else 0
+        tz_label = f"UTC{hours:+d}"
 
     token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
     if not token:
@@ -215,7 +296,7 @@ def main() -> int:
     times = fetch_all_stars(args.repo, token)
     print(f"total stars fetched: {len(times)}", file=sys.stderr)
 
-    svg = build_svg(args.repo, times)
+    svg = build_svg(args.repo, times, tz=tz, tz_label=tz_label)
     os.makedirs(os.path.dirname(args.out) or ".", exist_ok=True)
     with open(args.out, "w", encoding="utf-8") as f:
         f.write(svg)
