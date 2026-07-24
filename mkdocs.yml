@@ -71,20 +71,10 @@ extra:
       link: https://github.com/RuneFang/tvm_tilelang_cookbook
   generator: false
 
-# 不蒜子（busuanzi）：零注册、零配置的中文极简访问计数
-# 首次访问后可能需要几秒 / 需要真实域名（非 localhost）才会返回数字
-extra_javascript:
-  - https://busuanzi.pgaot.com/js/busuanzi.pure.mini.js
-
-# 每一页的页脚都显示"本站总访问量 X 次 · 访客数 Y 人"
+# 页脚：一个稳定的访问计数徽章 + Star 呼吁
 copyright: >
   Copyright &copy; 2024–2026 RuneFang ·
-  <span id="busuanzi_container_site_pv" style="display:none;">
-    本站总访问量 <span id="busuanzi_value_site_pv"></span> 次
-  </span>
-  <span id="busuanzi_container_site_uv" style="display:none;">
-    · 访客数 <span id="busuanzi_value_site_uv"></span> 人
-  </span>
+  <img src="https://visitor-badge.laobi.icu/badge?page_id=RuneFang.tvm_tilelang_cookbook.site&left_text=Visits" alt="Visits" style="vertical-align:middle;"/>
   · <a href="https://github.com/RuneFang/tvm_tilelang_cookbook">给我一颗 ⭐ Star 呀</a>
 
 nav:

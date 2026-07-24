@@ -44,33 +44,10 @@
 
 ## 📈 谁在看这本笔记
 
-<div style="display:flex;gap:16px;flex-wrap:wrap;margin:12px 0;">
-  <div style="flex:1;min-width:180px;padding:16px 20px;border:1px solid var(--md-default-fg-color--lightest);border-radius:10px;text-align:center;">
-    <div style="font-size:12px;opacity:.7;">本站总访问量</div>
-    <div style="font-size:28px;font-weight:700;margin-top:4px;">
-      <span id="busuanzi_value_site_pv">…</span>
-      <span style="font-size:14px;font-weight:400;opacity:.7;"> 次</span>
-    </div>
-  </div>
-  <div style="flex:1;min-width:180px;padding:16px 20px;border:1px solid var(--md-default-fg-color--lightest);border-radius:10px;text-align:center;">
-    <div style="font-size:12px;opacity:.7;">累计访客数</div>
-    <div style="font-size:28px;font-weight:700;margin-top:4px;">
-      <span id="busuanzi_value_site_uv">…</span>
-      <span style="font-size:14px;font-weight:400;opacity:.7;"> 人</span>
-    </div>
-  </div>
-  <div style="flex:1;min-width:180px;padding:16px 20px;border:1px solid var(--md-default-fg-color--lightest);border-radius:10px;text-align:center;">
-    <div style="font-size:12px;opacity:.7;">本页阅读次数</div>
-    <div style="font-size:28px;font-weight:700;margin-top:4px;">
-      <span id="busuanzi_value_page_pv">…</span>
-      <span style="font-size:14px;font-weight:400;opacity:.7;"> 次</span>
-    </div>
-  </div>
-</div>
-
-<p align="center" style="margin-top:8px;">
-  <img src="https://visitor-badge.laobi.icu/badge?page_id=RuneFang.tvm_tilelang_cookbook.site&left_text=Visitors" alt="Visitors"/>
-  <img src="https://komarev.com/ghpvc/?username=RuneFang-cookbook&label=Page%20views&color=brightgreen&style=flat" alt="Page views"/>
+<p align="center">
+  <img src="https://visitor-badge.laobi.icu/badge?page_id=RuneFang.tvm_tilelang_cookbook.site&left_text=Total%20Visits&left_color=555&right_color=blue" alt="Total Visits"/>
+  &nbsp;
+  <img src="https://komarev.com/ghpvc/?username=runefang-cookbook&label=Page%20Views&color=orange&style=flat-square" alt="Page Views"/>
 </p>
 
 ---
