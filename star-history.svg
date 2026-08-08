@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="320" viewBox="0 0 800 320" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif">
+<rect width="800" height="320" fill="#ffffff"/>
+<text x="60" y="24" font-size="14" fill="#24292f" font-weight="700">14 stars</text>
+<text x="770" y="24" font-size="11" fill="#8c959f" text-anchor="end">updated 2026-08-08 (UTC+8)</text>
+<line x1="60" y1="280.0" x2="770" y2="280.0" stroke="#eaeef2" stroke-width="1"/>
+<text x="52" y="284.0" font-size="11" fill="#57606a" text-anchor="end">0</text>
+<line x1="60" y1="228.6" x2="770" y2="228.6" stroke="#eaeef2" stroke-width="1"/>
+<text x="52" y="232.6" font-size="11" fill="#57606a" text-anchor="end">3</text>
+<line x1="60" y1="177.1" x2="770" y2="177.1" stroke="#eaeef2" stroke-width="1"/>
+<text x="52" y="181.1" font-size="11" fill="#57606a" text-anchor="end">6</text>
+<line x1="60" y1="142.9" x2="770" y2="142.9" stroke="#eaeef2" stroke-width="1"/>
+<text x="52" y="146.9" font-size="11" fill="#57606a" text-anchor="end">8</text>
+<line x1="60" y1="91.4" x2="770" y2="91.4" stroke="#eaeef2" stroke-width="1"/>
+<text x="52" y="95.4" font-size="11" fill="#57606a" text-anchor="end">11</text>
+<line x1="60" y1="40.0" x2="770" y2="40.0" stroke="#eaeef2" stroke-width="1"/>
+<text x="52" y="44.0" font-size="11" fill="#57606a" text-anchor="end">14</text>
+<text x="60.0" y="300" font-size="11" fill="#57606a" text-anchor="middle">2026-07-24</text>
+<text x="202.0" y="300" font-size="11" fill="#57606a" text-anchor="middle">2026-07-27</text>
+<text x="344.0" y="300" font-size="11" fill="#57606a" text-anchor="middle">2026-07-30</text>
+<text x="486.0" y="300" font-size="11" fill="#57606a" text-anchor="middle">2026-08-02</text>
+<text x="628.0" y="300" font-size="11" fill="#57606a" text-anchor="middle">2026-08-05</text>
+<text x="770.0" y="300" font-size="11" fill="#57606a" text-anchor="middle">2026-08-08</text>
+<path d="M 60,280 L 60.0,262.9 L 69.5,245.7 L 70.4,228.6 L 71.7,211.4 L 108.8,194.3 L 155.3,177.1 L 201.5,160.0 L 202.2,142.9 L 264.3,125.7 L 343.4,108.6 L 594.3,91.4 L 612.8,74.3 L 658.7,57.1 L 718.8,40.0 L 718.8,280 Z" fill="#dbedff" fill-opacity="0.6"/>
+<path d="M 60.0,262.9 L 69.5,245.7 L 70.4,228.6 L 71.7,211.4 L 108.8,194.3 L 155.3,177.1 L 201.5,160.0 L 202.2,142.9 L 264.3,125.7 L 343.4,108.6 L 594.3,91.4 L 612.8,74.3 L 658.7,57.1 L 718.8,40.0" fill="none" stroke="#0969da" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>
